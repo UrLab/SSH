@@ -16,6 +16,9 @@ from constants import (
     SCREEN_Y
 )
 from database import DataBase
+from digicode import DigiCode
+from product import Product
+from basket import Basket
 
 
 # Get the cleaned scan result
@@ -39,11 +42,21 @@ def main():
     # The result is a string containing the scan value and a
     # boolean indicating if its the complete scan or not
     scan = "", False
+    basket = Basket()
+
     running = True  # Defines wether the application is running or not
+    finnish = False  # Defines wether the user wants to pay or not
+
     title = fonts["25"].render(
         "Scannez un produit pour en connaitre sa valeur", 1, (0, 0, 0))
     # The current product (Name, Price, Image) as images
     current_product = [None, None, None]
+
+    # The digicode widget
+    digicode = DigiCode(
+        (SCREEN_X - 250, SCREEN_Y//2 - 80),
+        fonts["25"], case_size=60, gap_size=5
+    )
 
     while running:
         screen.blit(background, (0, 0))
@@ -56,30 +69,10 @@ def main():
             (0.9*SCREEN_X, urlabBanner.get_size()[1]+title.get_size()[1]+10)
         )
 
-        # If a product has been scanned
-        if current_product[2] is not None:
-            screen.blit(
-                current_product[2], (
-                    SCREEN_X//2 - current_product[2].get_size()[0]//2,
-                    SCREEN_Y//2 - current_product[2].get_size()[1]//2
-                    + 30
-                )
-            )
-            screen.blit(
-                current_product[0], (
-                    SCREEN_X//2 - current_product[0].get_size()[0]//2,
-                    SCREEN_Y//2 - current_product[2].get_size()[1]//2
-                    - current_product[0].get_size()[1]
-                    + 30
-                )
-            )
-            screen.blit(
-                current_product[1], (
-                    SCREEN_X//2 - current_product[1].get_size()[0]//2,
-                    SCREEN_Y//2 + current_product[2].get_size()[1]//2
-                    + 30,
-                )
-            )
+        if finnish:
+            digicode.draw(screen)
+
+        basket.draw(screen)
 
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -99,31 +92,14 @@ def main():
                 # If there's no image associated to the product
                 if current_product[2] == "":
                     current_product[2] = "imgs/products/Not_Found.png"
-                # Refactor current product to only have images
-                # that can be printed to the screen
-                current_product = [
-                    fonts["25"].render(
-                        current_product[0],
-                        1,
-                        (0, 0, 0)
-                    ),
-                    fonts["50"].render(
-                        "{}€".format(current_product[1]),
-                        1,
-                        (0, 0, 0)
-                    ),
-                    pygame.image.load(current_product[2])
-                ]
-                # Coefficient for resizing the image at the desired size
-                coef = current_product[2].get_size()[1]/150
 
-                current_product[2] = pygame.transform.smoothscale(
-                    current_product[2],
-                    (
-                        int(current_product[2].get_size()[0]/coef),
-                        int(current_product[2].get_size()[1]/coef)
-                    )
+                current_product = Product(
+                    current_product[0],
+                    current_product[1],
+                    current_product[2]
                 )
+
+                basket.add(current_product)
 
                 scan = "", False
 

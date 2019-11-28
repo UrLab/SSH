@@ -44,6 +44,11 @@ for x in [14, 20, 25, 30, 35, 50, 75, 100]:
 
 SCREEN_X = 1024
 SCREEN_Y = 600
+
+PRODUCT_Y = 75
+PRODUCT_SMALL_Y = 50
+PRODUCT_X = 250
+
 screen = pygame.display.set_mode((SCREEN_X, SCREEN_Y))  # , FULLSCREEN)
 
 # IMAGES MADE BY THE COMPUTER
