@@ -16,7 +16,8 @@ from constants import (
     urlabBanner,
     background,
     SCREEN_X,
-    SCREEN_Y
+    SCREEN_Y,
+    keyboard
 )
 from database import DataBase
 from digicode import DigiCode
@@ -110,6 +111,8 @@ def main():
             if message.update(time_elapsed):
                 del messages[messages.index(message)]
 
+        keyboard.blit(screen)
+
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()
@@ -127,6 +130,7 @@ def main():
                 elif buttons["cancel"].collide(event.pos):
                     cart.empty()
 
+            keyboard.on_event(event)
             scan = fetchScan(event, scan[0])
             # If a scan has been completed
             if scan[1]:

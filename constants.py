@@ -2,6 +2,8 @@ import random
 import pygame
 from pygame.locals import FULLSCREEN
 
+from keyboard import vkb
+
 pygame.init()
 
 
@@ -33,7 +35,7 @@ def CreateBanner(fonts, SCREEN_X):
 
 
 # FONTS
-if random.random() < 0.33:
+if random.random() < 0.1:
     fontToLoad = 'fonts/comic-sans-ms.ttf'
 else:
     fontToLoad = 'fonts/BebasNeue-Regular.ttf'
@@ -63,6 +65,9 @@ background.blit(
         SCREEN_Y-fromUrLabWithLove.get_size()[1]
     )
 )
+
+# Virtual keyboard
+keyboard = vkb((SCREEN_X//2 - 250, SCREEN_Y-235), fonts["25"])
 
 msg_colors = {
     "ERROR": (200, 10, 10),
