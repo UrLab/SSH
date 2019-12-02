@@ -5,7 +5,7 @@ from constants import (
 )
 
 
-class Basket(object):
+class Cart(object):
     def __init__(self):
         self.products = []
 

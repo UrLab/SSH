@@ -18,7 +18,7 @@ from constants import (
 from database import DataBase
 from digicode import DigiCode
 from product import Product
-from basket import Basket
+from cart import Cart
 
 
 # Get the cleaned scan result
@@ -42,7 +42,7 @@ def main():
     # The result is a string containing the scan value and a
     # boolean indicating if its the complete scan or not
     scan = "", False
-    basket = Basket()
+    cart = Cart()
 
     running = True  # Defines wether the application is running or not
     finnish = False  # Defines wether the user wants to pay or not
@@ -72,7 +72,7 @@ def main():
         if finnish:
             digicode.draw(screen)
 
-        basket.draw(screen)
+        cart.draw(screen)
 
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -99,7 +99,7 @@ def main():
                     current_product[2]
                 )
 
-                basket.add(current_product)
+                cart.add(current_product)
 
                 scan = "", False
 
