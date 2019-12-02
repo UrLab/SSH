@@ -63,3 +63,9 @@ background.blit(
         SCREEN_Y-fromUrLabWithLove.get_size()[1]
     )
 )
+
+msg_colors = {
+    "ERROR": (200, 10, 10),
+    "SUCCESS": (10, 200, 10),
+    "WARNING": (200, 150, 10)
+}
