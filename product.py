@@ -38,10 +38,22 @@ class Product(object):
             )
         )
 
+        self.price_img = fonts["20"].render(
+            " => {}€".format(self.price*self.nbr),
+            1, (0, 0, 0)
+        )
+
+    def get_total(self):
+        return self.price * self.nbr
+
     def add_one(self):
         self.nbr += 1
         self.text_img = fonts["25"].render(
             "{}x {}".format(self.nbr, self.name),
+            1, (0, 0, 0)
+        )
+        self.price_img = fonts["20"].render(
+            " => {}€".format(self.price*self.nbr),
             1, (0, 0, 0)
         )
 
@@ -50,26 +62,43 @@ class Product(object):
             rect = pygame.Rect(pos, (PRODUCT_X, PRODUCT_Y))
 
             pygame.draw.rect(screen, (0, 0, 0), rect, 2)
+
+            screen.blit(
+                self.text_img, (
+                    pos[0] + 5,
+                    pos[1] + PRODUCT_Y//2 - self.text_img.get_size()[1]//2)
+                )
+            screen.blit(
+                self.price_img, (
+                    pos[0] + PRODUCT_X + 5,
+                    pos[1] + PRODUCT_Y//2 - self.text_img.get_size()[1]//2)
+                )
+
             screen.blit(
                 self.full_image, (
                     pos[0] + PRODUCT_X - self.full_image.get_size()[0],
-                    pos[1] + 3,
-                )
+                    pos[1] + 3)
             )
         else:
             rect = pygame.Rect(pos, (PRODUCT_X, PRODUCT_SMALL_Y))
 
             pygame.draw.rect(screen, (0, 0, 0), rect, 2)
+
             screen.blit(
                 self.text_img, (
                     pos[0] + 5,
-                    pos[1] + PRODUCT_SMALL_Y//2 - self.text_img.get_size()[1]//2
-                )
+                    pos[1] + PRODUCT_SMALL_Y//2
+                    - self.text_img.get_size()[1]//2)
             )
+            screen.blit(
+                self.price_img, (
+                    pos[0] + PRODUCT_X + 5,
+                    pos[1] + PRODUCT_SMALL_Y//2
+                    - self.text_img.get_size()[1]//2)
+                )
 
             screen.blit(
                 self.small_image, (
                     pos[0] + PRODUCT_X - self.small_image.get_size()[0] - 5,
-                    pos[1] + 3,
-                )
+                    pos[1] + 3)
             )
